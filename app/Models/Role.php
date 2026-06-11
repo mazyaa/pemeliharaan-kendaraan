@@ -21,7 +21,7 @@ class Role extends Model
     {
         return match ($this->name) {
             RoleEnum::ADMIN->value => RoleEnum::ADMIN->label(),
-            RoleEnum::PENGELOLA_KENDARAAN->value => RoleEnum::PENGELOLA_KENDARAAN->label(),
+            RoleEnum::PENGAJU_KENDARAAN->value => RoleEnum::PENGAJU_KENDARAAN->label(),
             RoleEnum::KEPALA_BAGIAN->value => RoleEnum::KEPALA_BAGIAN->label(),
             RoleEnum::KEPALA_BIRO->value => RoleEnum::KEPALA_BIRO->label(),
             RoleEnum::PPTK->value => RoleEnum::PPTK->label(),

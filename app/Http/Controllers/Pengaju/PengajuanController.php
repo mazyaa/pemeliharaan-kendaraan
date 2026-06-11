@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Pengelola;
+namespace App\Http\Controllers\Pengaju;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePengajuanRequest;
@@ -18,15 +18,17 @@ class PengajuanController extends Controller
     {
         $filters = request()->only(['search', 'status', 'kendaraan_id']);
         $filters['pengaju_id'] = auth()->id();
-        $pengajuan = $this->service->paginated($filters, 10);
-        $kendaraan = $this->kendaraanService->getActive();
-        return view('pengelola.pengajuan.index', compact('pengajuan', 'kendaraan'));
+        $pengajuan = $this->service->paginated($filters, (int) request('perPage', 10));
+        $kendaraan = \App\Models\Kendaraan::where('pengaju_id', auth()->id())->get();
+        $jenisPemeliharaan = \App\Models\MasterJenisPemeliharaan::where('is_active', true)->get();
+        return view('pengaju.pengajuan.index', compact('pengajuan', 'kendaraan', 'jenisPemeliharaan'));
     }
 
     public function create()
     {
         $kendaraan = $this->kendaraanService->getActive();
-        return view('pengelola.pengajuan.create', compact('kendaraan'));
+        $jenisPemeliharaan = \App\Models\MasterJenisPemeliharaan::where('is_active', true)->get();
+        return view('pengaju.pengajuan.create', compact('kendaraan', 'jenisPemeliharaan'));
     }
 
     public function store(StorePengajuanRequest $request)
@@ -36,20 +38,20 @@ class PengajuanController extends Controller
         $data['pengaju_id'] = auth()->id();
         unset($data['lampiran']);
         $this->service->create($data, $files);
-        return redirect()->route('pengelola.pengajuan.index')->with('success', 'Pengajuan berhasil dibuat');
+        return redirect()->route('pengaju.pengajuan.index')->with('success', 'Pengajuan berhasil dibuat');
     }
 
     public function show($id)
     {
         $pengajuan = $this->service->find($id);
-        return view('pengelola.pengajuan.show', compact('pengajuan'));
+        return view('pengaju.pengajuan.show', compact('pengajuan'));
     }
 
     public function edit($id)
     {
         $pengajuan = $this->service->find($id);
         $kendaraan = $this->kendaraanService->getActive();
-        return view('pengelola.pengajuan.edit', compact('pengajuan', 'kendaraan'));
+        return view('pengaju.pengajuan.edit', compact('pengajuan', 'kendaraan'));
     }
 
     public function update(StorePengajuanRequest $request, $id)
@@ -58,18 +60,18 @@ class PengajuanController extends Controller
         $files = $request->file('lampiran') ?? [];
         unset($data['lampiran']);
         $this->service->update($id, $data, $files);
-        return redirect()->route('pengelola.pengajuan.index')->with('success', 'Pengajuan berhasil diperbarui');
+        return redirect()->route('pengaju.pengajuan.index')->with('success', 'Pengajuan berhasil diperbarui');
     }
 
     public function destroy($id)
     {
         $this->service->delete($id);
-        return redirect()->route('pengelola.pengajuan.index')->with('success', 'Pengajuan berhasil dihapus');
+        return redirect()->route('pengaju.pengajuan.index')->with('success', 'Pengajuan berhasil dihapus');
     }
 
     public function submit($id)
     {
         $this->service->submit($id, auth()->id());
-        return redirect()->route('pengelola.pengajuan.index')->with('success', 'Pengajuan berhasil disubmit');
+        return redirect()->route('pengaju.pengajuan.index')->with('success', 'Pengajuan berhasil disubmit');
     }
 }

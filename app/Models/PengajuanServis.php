@@ -17,7 +17,6 @@ class PengajuanServis extends Model
         'kendaraan_id',
         'pengaju_id',
         'tanggal_pengajuan',
-        'keluhan',
         'status',
         'submitted_at',
     ];
@@ -44,6 +43,11 @@ class PengajuanServis extends Model
     public function approvalHistories()
     {
         return $this->hasMany(ApprovalHistory::class);
+    }
+
+    public function details()
+    {
+        return $this->hasMany(\App\Models\PengajuanServisDetail::class);
     }
 
     public function lampiran()

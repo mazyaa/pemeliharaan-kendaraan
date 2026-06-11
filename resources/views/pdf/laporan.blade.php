@@ -37,10 +37,6 @@
             <div class="value">{{ $summary['total_diproses'] }}</div>
             <div class="label">Diproses</div>
         </div>
-        <div class="summary-box">
-            <div class="value">Rp {{ number_format($summary['total_biaya'], 0, ',', '.') }}</div>
-            <div class="label">Total Biaya</div>
-        </div>
     </div>
 
     <table>
@@ -52,7 +48,6 @@
                 <th>Bengkel</th>
                 <th>Tgl Masuk</th>
                 <th>Tgl Selesai</th>
-                <th>Biaya</th>
                 <th>Status</th>
             </tr>
         </thead>
@@ -65,7 +60,6 @@
                 <td>{{ $item->nama_bengkel }}</td>
                 <td>{{ $item->tanggal_masuk->format('d/m/Y') }}</td>
                 <td>{{ $item->tanggal_selesai?->format('d/m/Y') ?? '-' }}</td>
-                <td style="text-align: right;">Rp {{ number_format($item->biaya, 0, ',', '.') }}</td>
                 <td>{{ $item->label_status }}</td>
             </tr>
             @endforeach

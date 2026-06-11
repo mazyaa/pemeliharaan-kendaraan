@@ -3,11 +3,17 @@
 namespace App\Repositories;
 
 use App\Models\Role;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 
 class RoleRepository
 {
     public function __construct(protected Role $model) {}
+
+    public function paginated(array $filters = [], int $perPage = 10): LengthAwarePaginator
+    {
+        return $this->model->latest()->paginate($perPage);
+    }
 
     public function all(): Collection
     {

@@ -36,7 +36,6 @@ class ApprovalService
             $newStatus = match ($currentStatus) {
                 PengajuanStatusEnum::SUBMITTED => PengajuanStatusEnum::APPROVED_KABAG,
                 PengajuanStatusEnum::APPROVED_KABAG => PengajuanStatusEnum::DISPOSED_BIRO,
-                PengajuanStatusEnum::DISPOSED_BIRO => PengajuanStatusEnum::APPROVED_PPTK,
                 default => null,
             };
 
@@ -45,7 +44,6 @@ class ApprovalService
             $approvalLevel = match ($currentStatus) {
                 PengajuanStatusEnum::SUBMITTED => ApprovalLevelEnum::KEPALA_BAGIAN,
                 PengajuanStatusEnum::APPROVED_KABAG => ApprovalLevelEnum::KEPALA_BIRO,
-                PengajuanStatusEnum::DISPOSED_BIRO => ApprovalLevelEnum::PPTK,
                 default => null,
             };
 
@@ -87,7 +85,6 @@ class ApprovalService
             $newStatus = match ($currentStatus) {
                 PengajuanStatusEnum::SUBMITTED => PengajuanStatusEnum::REJECTED_KABAG,
                 PengajuanStatusEnum::APPROVED_KABAG => PengajuanStatusEnum::REJECTED_BIRO,
-                PengajuanStatusEnum::DISPOSED_BIRO => PengajuanStatusEnum::REJECTED_PPTK,
                 default => null,
             };
 
@@ -96,7 +93,6 @@ class ApprovalService
             $approvalLevel = match ($currentStatus) {
                 PengajuanStatusEnum::SUBMITTED => ApprovalLevelEnum::KEPALA_BAGIAN,
                 PengajuanStatusEnum::APPROVED_KABAG => ApprovalLevelEnum::KEPALA_BIRO,
-                PengajuanStatusEnum::DISPOSED_BIRO => ApprovalLevelEnum::PPTK,
                 default => null,
             };
 
@@ -131,12 +127,12 @@ class ApprovalService
         return $this->approve($pengajuanId, $approverId, $notes);
     }
 
-    public function getPendingForKabag()
+    public function getPendingForKabag(int $perPage = 10)
     {
-        return $this->pengajuanRepo->getPendingApproval(PengajuanStatusEnum::SUBMITTED->value);
+        return $this->pengajuanRepo->getPendingApproval(PengajuanStatusEnum::SUBMITTED->value, $perPage);
     }
 
-    public function getHistoryForKabag(array $filters = [])
+    public function getHistoryForKabag(array $filters = [], int $perPage = 10)
     {
         return $this->pengajuanRepo->getByStatuses(
             [
@@ -144,50 +140,35 @@ class ApprovalService
                 PengajuanStatusEnum::REJECTED_KABAG->value,
                 PengajuanStatusEnum::DISPOSED_BIRO->value,
                 PengajuanStatusEnum::REJECTED_BIRO->value,
-                PengajuanStatusEnum::APPROVED_PPTK->value,
-                PengajuanStatusEnum::REJECTED_PPTK->value,
                 PengajuanStatusEnum::SPK_GENERATED->value,
                 PengajuanStatusEnum::COMPLETED->value,
             ],
-            $filters
+            $filters,
+            $perPage
         );
     }
 
-    public function getPendingForKabiro()
+    public function getPendingForKabiro(int $perPage = 10)
     {
-        return $this->pengajuanRepo->getPendingApproval(PengajuanStatusEnum::APPROVED_KABAG->value);
+        return $this->pengajuanRepo->getPendingApproval(PengajuanStatusEnum::APPROVED_KABAG->value, $perPage);
     }
 
-    public function getPendingForPptk()
-    {
-        return $this->pengajuanRepo->getPendingApproval(PengajuanStatusEnum::DISPOSED_BIRO->value);
-    }
-
-    public function getHistoryForKabiro(array $filters = [])
+    public function getHistoryForKabiro(array $filters = [], int $perPage = 10)
     {
         return $this->pengajuanRepo->getByStatuses(
             [
                 PengajuanStatusEnum::DISPOSED_BIRO->value,
                 PengajuanStatusEnum::REJECTED_BIRO->value,
-                PengajuanStatusEnum::APPROVED_PPTK->value,
-                PengajuanStatusEnum::REJECTED_PPTK->value,
                 PengajuanStatusEnum::SPK_GENERATED->value,
                 PengajuanStatusEnum::COMPLETED->value,
             ],
-            $filters
+            $filters,
+            $perPage
         );
     }
 
-    public function getHistoryForPptk(array $filters = [])
+    public function getPendingForPptk(int $perPage = 10)
     {
-        return $this->pengajuanRepo->getByStatuses(
-            [
-                PengajuanStatusEnum::APPROVED_PPTK->value,
-                PengajuanStatusEnum::REJECTED_PPTK->value,
-                PengajuanStatusEnum::SPK_GENERATED->value,
-                PengajuanStatusEnum::COMPLETED->value,
-            ],
-            $filters
-        );
+        return $this->pengajuanRepo->getPendingApproval(PengajuanStatusEnum::DISPOSED_BIRO->value, $perPage);
     }
 }

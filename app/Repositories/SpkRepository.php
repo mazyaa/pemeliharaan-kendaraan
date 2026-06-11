@@ -31,6 +31,7 @@ class SpkRepository
             'pengajuanServis.kendaraan',
             'pengajuanServis.pengaju',
             'pengajuanServis.lampiran',
+            'pengajuanServis.details.jenisPemeliharaan',
             'creator',
             'riwayatPemeliharaan.lampiran',
         ])->find($id);

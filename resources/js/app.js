@@ -18,16 +18,18 @@ const Toast = Swal.mixin({
 });
 window.Toast = Toast;
 
-// Auto-show flash messages
-document.addEventListener('DOMContentLoaded', () => {
-    const flashSuccess = document.getElementById('flash-success');
-    const flashError = document.getElementById('flash-error');
-    if (flashSuccess) {
-        Toast.fire({ icon: 'success', title: flashSuccess.value });
-    }
-    if (flashError) {
-        Toast.fire({ icon: 'error', title: flashError.value });
-    }
-});
+// Auto-show flash messages — module scripts are deferred, DOM is ready
+const flashSuccess = document.getElementById('flash-success');
+const flashError = document.getElementById('flash-error');
+const flashValidation = document.getElementById('flash-validation');
+if (flashSuccess && flashSuccess.value) {
+    Toast.fire({ icon: 'success', title: flashSuccess.value });
+}
+if (flashError && flashError.value) {
+    Toast.fire({ icon: 'error', title: flashError.value });
+}
+if (flashValidation && flashValidation.value) {
+    Toast.fire({ icon: 'error', title: flashValidation.value });
+}
 
 Alpine.start();

@@ -15,14 +15,14 @@ class LaporanController extends Controller
     public function index()
     {
         $filters = request()->only(['search', 'status', 'date_from', 'date_to']);
-        $laporan = $this->service->generate($filters);
+        $laporan = $this->service->generate($filters, (int) request('perPage', 10));
         return view('laporan.index', $laporan);
     }
 
     public function exportPdf()
     {
         $filters = request()->only(['search', 'status', 'date_from', 'date_to']);
-        $data = $this->service->generate($filters);
+        $data = $this->service->generate($filters, 1000);
         $pdf = $this->pdfService->generateLaporanPdf($data);
         return $pdf->download('laporan-pemeliharaan-' . now()->format('Y-m-d') . '.pdf');
     }

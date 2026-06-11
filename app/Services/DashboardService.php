@@ -29,7 +29,6 @@ class DashboardService
             'spk_terbit' => $this->spkRepo->countThisMonth(),
             'total_spk' => $this->spkRepo->count(),
             'pemeliharaan_selesai' => $this->riwayatRepo->countSelesai(),
-            'total_biaya' => $this->riwayatRepo->totalBiaya(),
         ];
     }
 

@@ -4,8 +4,8 @@
 @section('content')
 <div class="space-y-6 animate-fade-in">
     <div>
-        <h1 class="text-2xl font-bold text-white">Approval Kepala Bagian</h1>
-        <p class="text-gray-400 text-sm mt-1">Kelola persetujuan pengajuan servis kendaraan</p>
+        <h1 class="text-2xl font-bold text-gray-800">Approval Kepala Bagian</h1>
+        <p class="text-gray-500 text-sm mt-1">Kelola persetujuan pengajuan servis kendaraan</p>
     </div>
 
     <nav class="tab-nav">
@@ -23,26 +23,26 @@
         </a>
     </nav>
 
-    <div class="table-container">
+    <div class="table-container hidden md:block">
         <table class="w-full text-sm">
             <thead class="table-header">
                 <tr>
-                    <th class="text-left py-3 px-4 font-semibold text-gray-400">No</th>
-                    <th class="text-left py-3 px-4 font-semibold text-gray-400">Nomor</th>
-                    <th class="text-left py-3 px-4 font-semibold text-gray-400">Kendaraan</th>
-                    <th class="text-left py-3 px-4 font-semibold text-gray-400">Pengaju</th>
-                    <th class="text-left py-3 px-4 font-semibold text-gray-400">Tanggal</th>
-                    <th class="text-center py-3 px-4 font-semibold text-gray-400">Aksi</th>
+                    <th class="text-left py-3 px-4 font-semibold text-gray-500">No</th>
+                    <th class="text-left py-3 px-4 font-semibold text-gray-500">Nomor</th>
+                    <th class="text-left py-3 px-4 font-semibold text-gray-500">Kendaraan</th>
+                    <th class="text-left py-3 px-4 font-semibold text-gray-500">Pengaju</th>
+                    <th class="text-left py-3 px-4 font-semibold text-gray-500">Tanggal</th>
+                    <th class="text-center py-3 px-4 font-semibold text-gray-500">Aksi</th>
                 </tr>
             </thead>
             <tbody>
                 @forelse($pengajuan as $index => $item)
-                <tr class="border-b border-white/5 hover:bg-white/5 transition-colors">
-                    <td class="py-3 px-4 text-gray-300">{{ $index + 1 }}</td>
-                    <td class="py-3 px-4 font-medium text-white">{{ $item->nomor_pengajuan }}</td>
-                    <td class="py-3 px-4 text-gray-300">{{ $item->kendaraan->merk }} {{ $item->kendaraan->tipe }}</td>
-                    <td class="py-3 px-4 text-gray-300">{{ $item->pengaju->name }}</td>
-                    <td class="py-3 px-4 text-gray-300">{{ $item->tanggal_pengajuan->format('d/m/Y') }}</td>
+                <tr class="border-b border-gray-200 hover:bg-gray-50 transition-colors">
+                    <td class="py-3 px-4 text-gray-700">{{ $pengajuan->firstItem() + $index }}</td>
+                    <td class="py-3 px-4 font-medium text-gray-800">{{ $item->nomor_pengajuan }}</td>
+                    <td class="py-3 px-4 text-gray-700">{{ $item->kendaraan->merk }} {{ $item->kendaraan->tipe }}</td>
+                    <td class="py-3 px-4 text-gray-700">{{ $item->pengaju->name }}</td>
+                    <td class="py-3 px-4 text-gray-700">{{ $item->tanggal_pengajuan->format('d/m/Y') }}</td>
                     <td class="py-3 px-4 text-center">
                         <a href="{{ route('kabag.approval.show', $item) }}" class="btn-icon" title="Detail">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
@@ -64,6 +64,46 @@
                 @endforelse
             </tbody>
         </table>
+    </div>
+
+    <div class="hidden md:block mt-6">
+        {{ $pengajuan->withQueryString()->links() }}
+    </div>
+
+    <!-- Mobile Cards -->
+    <div class="md:hidden space-y-3">
+        @forelse($pengajuan as $index => $item)
+        <div class="glass-card p-4">
+            <div class="flex justify-between items-start mb-2">
+                <span class="font-semibold text-gray-800">{{ $pengajuan->firstItem() + $index }}</span>
+                <span class="text-xs text-gray-500">{{ $item->tanggal_pengajuan->format('d/m/Y') }}</span>
+            </div>
+            <div class="space-y-1 text-sm mt-3">
+                <div class="flex justify-between">
+                    <span class="text-gray-500">Nomor:</span>
+                    <span class="font-medium">{{ $item->nomor_pengajuan }}</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-500">Kendaraan:</span>
+                    <span class="font-medium">{{ $item->kendaraan->merk }} {{ $item->kendaraan->tipe }}</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-500">Pengaju:</span>
+                    <span class="font-medium">{{ $item->pengaju->name }}</span>
+                </div>
+            </div>
+            <div class="flex items-center justify-end gap-1 mt-3 pt-3 border-t border-gray-100">
+                <a href="{{ route('kabag.approval.show', $item) }}" class="btn-icon" title="Detail">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                </a>
+            </div>
+        </div>
+        @empty
+        <div class="text-center py-8 text-gray-500">
+            Belum ada pengajuan
+        </div>
+        @endforelse
+        <div class="p-4">{{ $pengajuan->withQueryString()->links() }}</div>
     </div>
 </div>
 @endsection

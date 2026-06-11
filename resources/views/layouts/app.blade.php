@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=inter:300,400,500,600,700&display=swap" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <link rel="shortcut icon" href="/logo-banten.svg" type="image/x-icon">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="font-sans antialiased overflow-x-hidden" x-data="{ sidebarOpen: false }">
@@ -21,6 +22,9 @@
                 @endif
                 @if(session('error'))
                     <input type="hidden" id="flash-error" value="{{ session('error') }}">
+                @endif
+                @if($errors->any())
+                    <input type="hidden" id="flash-validation" value="{{ implode(', ', $errors->all()) }}">
                 @endif
                 @yield('content')
             </main>
@@ -38,13 +42,13 @@
                 cancelButtonColor: '#6b7280',
                 confirmButtonText: 'Ya, Hapus!',
                 cancelButtonText: 'Batal',
-                background: '#1e293b',
-                color: '#fff',
+                background: '#fff',
+                color: '#374151',
                 iconColor: '#f59e0b',
                 customClass: {
-                    popup: 'rounded-3xl shadow-2xl border border-white/10',
+                    popup: 'rounded-3xl shadow-xl border border-gray-200',
                     confirmButton: 'px-5 py-2.5 rounded-xl font-semibold text-white bg-gradient-to-br from-red-500 to-rose-600 hover:shadow-lg transition-all',
-                    cancelButton: 'px-5 py-2.5 rounded-xl font-semibold text-gray-300 bg-white/10 hover:bg-white/20 transition-all',
+                    cancelButton: 'px-5 py-2.5 rounded-xl font-semibold text-gray-700 bg-gray-100 hover:bg-gray-200 transition-all',
                 }
             }).then((result) => {
                 if (result.isConfirmed) {
@@ -68,13 +72,13 @@
                 cancelButtonColor: '#6b7280',
                 confirmButtonText: 'Ya, Kirim!',
                 cancelButtonText: 'Batal',
-                background: '#1e293b',
-                color: '#fff',
+                background: '#fff',
+                color: '#374151',
                 iconColor: '#10b981',
                 customClass: {
-                    popup: 'rounded-3xl shadow-2xl border border-white/10',
+                    popup: 'rounded-3xl shadow-xl border border-gray-200',
                     confirmButton: 'px-5 py-2.5 rounded-xl font-semibold text-white bg-gradient-to-br from-emerald-500 to-green-600 hover:shadow-lg transition-all',
-                    cancelButton: 'px-5 py-2.5 rounded-xl font-semibold text-gray-300 bg-white/10 hover:bg-white/20 transition-all',
+                    cancelButton: 'px-5 py-2.5 rounded-xl font-semibold text-gray-700 bg-gray-100 hover:bg-gray-200 transition-all',
                 }
             }).then((result) => {
                 if (result.isConfirmed) {
@@ -93,13 +97,13 @@
                 cancelButtonColor: '#6b7280',
                 confirmButtonText: confirmText,
                 cancelButtonText: 'Batal',
-                background: '#1e293b',
-                color: '#fff',
+                background: '#fff',
+                color: '#374151',
                 iconColor: '#10b981',
                 customClass: {
-                    popup: 'rounded-3xl shadow-2xl border border-white/10',
+                    popup: 'rounded-3xl shadow-xl border border-gray-200',
                     confirmButton: 'px-5 py-2.5 rounded-xl font-semibold text-white bg-gradient-to-br from-emerald-500 to-green-600 hover:shadow-lg transition-all',
-                    cancelButton: 'px-5 py-2.5 rounded-xl font-semibold text-gray-300 bg-white/10 hover:bg-white/20 transition-all',
+                    cancelButton: 'px-5 py-2.5 rounded-xl font-semibold text-gray-700 bg-gray-100 hover:bg-gray-200 transition-all',
                 }
             }).then((result) => {
                 if (result.isConfirmed) {

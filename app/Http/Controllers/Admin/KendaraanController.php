@@ -14,7 +14,7 @@ class KendaraanController extends Controller
     public function index()
     {
         $filters = request()->only(['search', 'status', 'merk']);
-        $kendaraan = $this->service->paginated($filters, 10);
+        $kendaraan = $this->service->paginated($filters, (int) request('perPage', 10));
         return view('admin.kendaraan.index', compact('kendaraan'));
     }
 

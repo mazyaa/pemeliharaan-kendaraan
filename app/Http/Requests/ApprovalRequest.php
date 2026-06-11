@@ -14,7 +14,7 @@ class ApprovalRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'notes' => 'nullable|string|max:1000',
+            'notes' => 'required|string|max:1000',
         ];
     }
 }

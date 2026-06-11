@@ -8,19 +8,17 @@ class LaporanService
 {
     public function __construct(protected RiwayatPemeliharaanRepository $riwayatRepo) {}
 
-    public function generate(array $filters): array
+    public function generate(array $filters, int $perPage = 10): array
     {
-        $riwayat = $this->riwayatRepo->paginated($filters, 1000);
+        $riwayat = $this->riwayatRepo->paginated($filters, $perPage);
         $collection = $riwayat->getCollection();
 
-        $totalBiaya = $collection->sum('biaya');
         $totalSelesai = $collection->filter(fn ($r) => $r->status->value === 'selesai')->count();
         $totalDiproses = $collection->filter(fn ($r) => $r->status->value === 'diproses')->count();
 
         return [
             'data' => $riwayat,
             'summary' => [
-                'total_biaya' => $totalBiaya,
                 'total_selesai' => $totalSelesai,
                 'total_diproses' => $totalDiproses,
                 'total_data' => $riwayat->total(),

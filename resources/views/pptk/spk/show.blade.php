@@ -8,8 +8,8 @@
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
         </a>
         <div class="flex-1">
-            <h1 class="text-2xl font-bold text-white">Detail SPK</h1>
-            <p class="text-gray-400 text-sm">{{ $spk->nomor_spk }}</p>
+            <h1 class="text-2xl font-bold text-gray-800">Detail SPK</h1>
+            <p class="text-gray-500 text-sm">{{ $spk->nomor_spk }}</p>
         </div>
         <div class="flex gap-2">
             <a href="{{ route('pptk.spk.preview', $spk) }}" target="_blank" class="btn-icon" title="Preview">
@@ -23,70 +23,78 @@
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div class="glass-card">
-            <h3 class="text-lg font-bold text-white mb-4">Informasi SPK</h3>
+            <h3 class="text-lg font-bold text-gray-800 mb-4">Informasi SPK</h3>
             <div class="space-y-3">
                 <div class="flex justify-between items-center">
-                    <span class="text-gray-400">Nomor SPK</span>
-                    <span class="font-medium text-white">{{ $spk->nomor_spk }}</span>
+                    <span class="text-gray-500">Nomor SPK</span>
+                    <span class="font-medium text-gray-800">{{ $spk->nomor_spk }}</span>
                 </div>
                 <div class="flex justify-between items-center">
-                    <span class="text-gray-400">Tanggal</span>
-                    <span class="font-medium text-white">{{ $spk->tanggal_spk->format('d/m/Y') }}</span>
+                    <span class="text-gray-500">Tanggal</span>
+                    <span class="font-medium text-gray-800">{{ $spk->tanggal_spk->format('d/m/Y') }}</span>
                 </div>
                 <div class="flex justify-between items-center">
-                    <span class="text-gray-400">Dibuat Oleh</span>
-                    <span class="font-medium text-white">{{ $spk->creator->name }}</span>
+                    <span class="text-gray-500">Dibuat Oleh</span>
+                    <span class="font-medium text-gray-800">{{ $spk->creator->name }}</span>
                 </div>
                 @if($spk->keterangan)
-                <div class="pt-2 border-t border-white/10">
-                    <span class="text-gray-400 block mb-1">Keterangan</span>
-                    <p class="text-gray-300">{{ $spk->keterangan }}</p>
+                <div class="pt-2 border-t border-gray-200">
+                    <span class="text-gray-500 block mb-1">Keterangan</span>
+                    <p class="text-gray-700">{{ $spk->keterangan }}</p>
                 </div>
                 @endif
             </div>
         </div>
         <div class="glass-card">
-            <h3 class="text-lg font-bold text-white mb-4">Data Pengajuan</h3>
+            <h3 class="text-lg font-bold text-gray-800 mb-4">Data Pengajuan</h3>
             <div class="space-y-3">
                 <div class="flex justify-between items-center">
-                    <span class="text-gray-400">Nomor</span>
-                    <span class="font-medium text-white">{{ $spk->pengajuanServis->nomor_pengajuan }}</span>
+                    <span class="text-gray-500">Nomor</span>
+                    <span class="font-medium text-gray-800">{{ $spk->pengajuanServis->nomor_pengajuan }}</span>
                 </div>
                 <div class="flex justify-between items-center">
-                    <span class="text-gray-400">Kendaraan</span>
-                    <span class="font-medium text-white">{{ $spk->pengajuanServis->kendaraan->merk }} {{ $spk->pengajuanServis->kendaraan->tipe }}</span>
+                    <span class="text-gray-500">Kendaraan</span>
+                    <span class="font-medium text-gray-800">{{ $spk->pengajuanServis->kendaraan->merk }} {{ $spk->pengajuanServis->kendaraan->tipe }}</span>
                 </div>
                 <div class="flex justify-between items-center">
-                    <span class="text-gray-400">Plat</span>
-                    <span class="font-medium text-white">{{ $spk->pengajuanServis->kendaraan->plat_nomor }}</span>
+                    <span class="text-gray-500">Plat</span>
+                    <span class="font-medium text-gray-800">{{ $spk->pengajuanServis->kendaraan->plat_nomor }}</span>
                 </div>
                 <div class="flex justify-between items-center">
-                    <span class="text-gray-400">Pengaju</span>
-                    <span class="font-medium text-white">{{ $spk->pengajuanServis->pengaju->name }}</span>
+                    <span class="text-gray-500">Pengaju</span>
+                    <span class="font-medium text-gray-800">{{ $spk->pengajuanServis->pengaju->name }}</span>
                 </div>
             </div>
         </div>
     </div>
 
     <div class="glass-card">
-        <h3 class="text-lg font-bold text-white mb-4">Keluhan</h3>
-        <p class="text-gray-300 whitespace-pre-line">{{ $spk->pengajuanServis->keluhan }}</p>
+        <h3 class="text-lg font-bold text-gray-800 mb-4">Pengajuan Servis</h3>
+        <div class="space-y-3">
+            @forelse($spk->pengajuanServis->details as $detail)
+            <div class="flex items-center justify-between py-2 border-b border-gray-100 last:border-b-0">
+                <div>
+                    <span class="font-medium text-gray-800 text-sm">{{ $detail->jenisPemeliharaan->nama }}</span>
+                    <p class="text-xs text-gray-500 mt-0.5">{{ $detail->jenisPemeliharaan->kategori }} &bull; {{ $detail->jenisPemeliharaan->interval_hari }} hari</p>
+                </div>
+                <span class="badge-{{ $detail->jenisPemeliharaan->is_active ? 'success' : 'secondary' }} text-[10px] px-2 py-0.5">{{ $detail->jenisPemeliharaan->kategori }}</span>
+            </div>
+            @empty
+            <p class="text-gray-500 text-sm">Tidak ada jenis pemeliharaan.</p>
+            @endforelse
+        </div>
     </div>
 
     @if($spk->riwayatPemeliharaan)
     <div class="glass-card">
-        <h3 class="text-lg font-bold text-white mb-4">Riwayat Pemeliharaan</h3>
-        <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+        <h3 class="text-lg font-bold text-gray-800 mb-4">Riwayat Pemeliharaan</h3>
+        <div class="grid grid-cols-2 gap-4">
             <div>
-                <span class="text-sm text-gray-400">Bengkel</span>
-                <p class="font-medium text-white">{{ $spk->riwayatPemeliharaan->nama_bengkel }}</p>
+                <span class="text-sm text-gray-500">Bengkel</span>
+                <p class="font-medium text-gray-800">{{ $spk->riwayatPemeliharaan->nama_bengkel }}</p>
             </div>
             <div>
-                <span class="text-sm text-gray-400">Biaya</span>
-                <p class="font-medium text-white">Rp {{ number_format($spk->riwayatPemeliharaan->biaya, 0, ',', '.') }}</p>
-            </div>
-            <div>
-                <span class="text-sm text-gray-400">Status</span>
+                <span class="text-sm text-gray-500">Status</span>
                 <p><span class="badge-{{ $spk->riwayatPemeliharaan->status_color }}">{{ $spk->riwayatPemeliharaan->label_status }}</span></p>
             </div>
         </div>

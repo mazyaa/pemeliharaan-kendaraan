@@ -1,16 +1,12 @@
 <aside class="fixed inset-y-0 left-0 z-50 w-64 glass-sidebar transform transition-all duration-300 -translate-x-full lg:translate-x-0"
        :class="{ '-translate-x-full': !sidebarOpen, 'translate-x-0': sidebarOpen }">
     <div class="flex flex-col h-full">
-        <div class="p-6 border-b border-white/10">
+        <div class="p-6 border-b border-gray-200">
             <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-2xl gradient-primary flex items-center justify-center shadow-lg shadow-emerald-500/20">
-                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
-                    </svg>
-                </div>
+                <img src="{{ asset('logo-banten.svg') }}" alt="Logo Banten" class="w-10 h-10">
                 <div>
-                    <p class="text-sm font-bold text-white">SKPD Banten</p>
-                    <p class="text-xs text-gray-400">Pemeliharaan Kendaraan</p>
+                    <p class="text-sm font-bold text-gray-800">SKPD Banten</p>
+                    <p class="text-xs text-gray-500">Pemeliharaan Kendaraan</p>
                 </div>
             </div>
         </div>
@@ -37,13 +33,21 @@
                 <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
                 Kendaraan
             </a>
+            <a href="{{ route('admin.jenis-pemeliharaan.index') }}" class="sidebar-link {{ request()->routeIs('admin.jenis-pemeliharaan.*') ? 'sidebar-link-active' : 'sidebar-link-default' }}">
+                <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714a2.25 2.25 0 00.659 1.591L19 14.5m-4.75-11.396c.251.023.501.05.75.082M12 21a8.966 8.966 0 005.982-2.275M12 21a8.966 8.966 0 01-5.982-2.275M15.75 3.186a24.284 24.284 0 012.068.858M6.318 3.186a24.284 24.284 0 00-2.068.858M12 3c-2.485 0-4.847.49-7.043 1.386"/></svg>
+                Jenis Pemeliharaan
+            </a>
+            <a href="{{ route('admin.assign.index') }}" class="sidebar-link {{ request()->routeIs('admin.assign.*') ? 'sidebar-link-active' : 'sidebar-link-default' }}">
+                <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/></svg>
+                Assign Pengaju
+            </a>
             @endrole
 
-            @role('pengelola_kendaraan')
+            @role('pengaju_kendaraan')
             <div class="pt-6 pb-2">
                 <p class="px-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Pengajuan</p>
             </div>
-            <a href="{{ route('pengelola.pengajuan.index') }}" class="sidebar-link {{ request()->routeIs('pengelola.pengajuan.*') ? 'sidebar-link-active' : 'sidebar-link-default' }}">
+            <a href="{{ route('pengaju.pengajuan.index') }}" class="sidebar-link {{ request()->routeIs('pengaju.pengajuan.*') ? 'sidebar-link-active' : 'sidebar-link-default' }}">
                 <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                 Pengajuan Servis
             </a>
@@ -81,17 +85,17 @@
             <div class="pt-6 pb-2">
                 <p class="px-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">PPTK</p>
             </div>
-            <a href="{{ route('pptk.approval.index') }}" class="sidebar-link {{ request()->routeIs('pptk.approval.*') && !request()->routeIs('pptk.approval.history') ? 'sidebar-link-active' : 'sidebar-link-default' }}">
-                <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                Approval PPTK
-            </a>
-            <a href="{{ route('pptk.approval.history') }}" class="sidebar-link {{ request()->routeIs('pptk.approval.history') ? 'sidebar-link-active' : 'sidebar-link-default' }}">
-                <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                Riwayat PPTK
-            </a>
+            @php
+                $pendingSpkCount = \App\Models\PengajuanServis::where('status', \App\Enums\PengajuanStatusEnum::DISPOSED_BIRO)
+                    ->whereDoesntHave('spk')
+                    ->count();
+            @endphp
             <a href="{{ route('pptk.spk.index') }}" class="sidebar-link {{ request()->routeIs('pptk.spk.*') ? 'sidebar-link-active' : 'sidebar-link-default' }}">
                 <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                 SPK
+                @if($pendingSpkCount > 0)
+                    <span class="ml-auto inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-500 rounded-full">{{ $pendingSpkCount }}</span>
+                @endif
             </a>
             <a href="{{ route('pptk.riwayat.index') }}" class="sidebar-link {{ request()->routeIs('pptk.riwayat.*') ? 'sidebar-link-active' : 'sidebar-link-default' }}">
                 <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
@@ -110,14 +114,14 @@
             @endrole
         </nav>
 
-        <div class="p-4 border-t border-white/10">
+        <div class="p-4 border-t border-gray-200">
             <div class="flex items-center gap-3">
                 <div class="w-9 h-9 rounded-2xl gradient-primary flex items-center justify-center text-white text-sm font-bold">
                     {{ substr(auth()->user()->name, 0, 1) }}
                 </div>
                 <div class="flex-1 min-w-0">
-                    <p class="text-sm font-semibold text-white truncate">{{ auth()->user()->name }}</p>
-                    <p class="text-xs text-gray-400 truncate">{{ auth()->user()->role?->label() }}</p>
+                    <p class="text-sm font-semibold text-gray-800 truncate">{{ auth()->user()->name }}</p>
+                    <p class="text-xs text-gray-500 truncate">{{ auth()->user()->role?->label() }}</p>
                 </div>
             </div>
         </div>

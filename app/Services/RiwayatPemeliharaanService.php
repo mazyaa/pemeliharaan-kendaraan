@@ -91,11 +91,6 @@ class RiwayatPemeliharaanService
         return $this->riwayatRepo->countSelesai();
     }
 
-    public function totalBiaya(): float
-    {
-        return $this->riwayatRepo->totalBiaya();
-    }
-
     public function delete(int $id): bool
     {
         return $this->riwayatRepo->delete($id);

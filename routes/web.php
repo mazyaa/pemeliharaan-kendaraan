@@ -4,10 +4,9 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\KendaraanController;
-use App\Http\Controllers\Pengelola\PengajuanController;
+use App\Http\Controllers\Pengaju\PengajuanController;
 use App\Http\Controllers\Kabag\ApprovalController;
 use App\Http\Controllers\Kabiro\DisposisiController;
-use App\Http\Controllers\Pptk\PptkApprovalController;
 use App\Http\Controllers\Pptk\SpkController;
 use App\Http\Controllers\Pptk\RiwayatController;
 use App\Http\Controllers\LaporanController;
@@ -25,6 +24,12 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('roles', RoleController::class)->only(['index', 'store', 'update', 'destroy']);
         Route::resource('users', UserController::class)->only(['index', 'store', 'update', 'destroy']);
         Route::resource('kendaraan', KendaraanController::class)->only(['index', 'store', 'update', 'destroy']);
+        Route::resource('jenis-pemeliharaan', \App\Http\Controllers\Admin\JenisPemeliharaanController::class)->only(['index', 'store', 'update', 'destroy']);
+        Route::prefix('assign')->name('assign.')->group(function () {
+            Route::get('/', [\App\Http\Controllers\Admin\AssignController::class, 'index'])->name('index');
+            Route::post('/', [\App\Http\Controllers\Admin\AssignController::class, 'store'])->name('store');
+            Route::delete('{id}', [\App\Http\Controllers\Admin\AssignController::class, 'destroy'])->name('destroy');
+        });
     });
 
     // Laporan Routes (admin only, no admin. name prefix)
@@ -33,8 +38,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('laporan/export-pdf', [LaporanController::class, 'exportPdf'])->name('laporan.export-pdf');
     });
 
-    // Pengelola Kendaraan Routes
-    Route::prefix('pengelola')->name('pengelola.')->middleware('role:pengelola_kendaraan')->group(function () {
+    // Pengaju Kendaraan Routes
+    Route::prefix('pengaju')->name('pengaju.')->middleware('role:pengaju_kendaraan')->group(function () {
         Route::resource('pengajuan', PengajuanController::class);
         Route::post('pengajuan/{id}/submit', [PengajuanController::class, 'submit'])->name('pengajuan.submit');
     });
@@ -59,16 +64,10 @@ Route::middleware(['auth'])->group(function () {
 
     // PPTK Routes
     Route::prefix('pptk')->name('pptk.')->middleware('role:pptk')->group(function () {
-        Route::get('approval', [PptkApprovalController::class, 'index'])->name('approval.index');
-        Route::get('approval/history', [PptkApprovalController::class, 'history'])->name('approval.history');
-        Route::get('approval/{id}', [PptkApprovalController::class, 'show'])->name('approval.show');
-        Route::post('approval/{id}/approve', [PptkApprovalController::class, 'approve'])->name('approval.approve');
-        Route::post('approval/{id}/reject', [PptkApprovalController::class, 'reject'])->name('approval.reject');
-        Route::post('approval/{id}/generate-spk', [PptkApprovalController::class, 'generateSpk'])->name('approval.generateSpk');
-
         Route::resource('spk', SpkController::class)->only(['index', 'show']);
         Route::get('spk/{id}/preview', [SpkController::class, 'preview'])->name('spk.preview');
         Route::get('spk/{id}/download', [SpkController::class, 'download'])->name('spk.download');
+        Route::post('spk/{id}/generate', [SpkController::class, 'generate'])->name('spk.generate');
 
         Route::resource('riwayat', RiwayatController::class)->only(['index', 'create', 'store', 'show', 'edit', 'update', 'destroy']);
     });

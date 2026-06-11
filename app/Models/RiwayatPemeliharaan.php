@@ -15,7 +15,6 @@ class RiwayatPemeliharaan extends Model
         'tanggal_selesai',
         'nama_bengkel',
         'hasil_pemeliharaan',
-        'biaya',
         'status',
         'catatan',
     ];
@@ -25,7 +24,6 @@ class RiwayatPemeliharaan extends Model
         return [
             'tanggal_masuk' => 'date',
             'tanggal_selesai' => 'date',
-            'biaya' => 'decimal:2',
             'status' => RiwayatStatusEnum::class,
         ];
     }
@@ -33,6 +31,11 @@ class RiwayatPemeliharaan extends Model
     public function spk()
     {
         return $this->belongsTo(Spk::class);
+    }
+
+    public function detailPemeliharaan()
+    {
+        return $this->hasMany(\App\Models\RiwayatPemeliharaanDetail::class);
     }
 
     public function lampiran()

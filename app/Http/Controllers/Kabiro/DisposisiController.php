@@ -13,14 +13,14 @@ class DisposisiController extends Controller
 
     public function index()
     {
-        $pengajuan = $this->service->getPendingForKabiro();
+        $pengajuan = $this->service->getPendingForKabiro((int) request('perPage', 10));
         return view('kabiro.disposisi.index', compact('pengajuan'));
     }
 
     public function history()
     {
         $filters = request()->only(['search', 'status']);
-        $pengajuan = $this->service->getHistoryForKabiro($filters);
+        $pengajuan = $this->service->getHistoryForKabiro($filters, (int) request('perPage', 10));
         return view('kabiro.disposisi.history', compact('pengajuan'));
     }
 

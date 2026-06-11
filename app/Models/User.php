@@ -54,9 +54,9 @@ class User extends Authenticatable
         return $this->hasRole(RoleEnum::ADMIN->value);
     }
 
-    public function isPengelola(): bool
+    public function isPengaju(): bool
     {
-        return $this->hasRole(RoleEnum::PENGELOLA_KENDARAAN->value);
+        return $this->hasRole(RoleEnum::PENGAJU_KENDARAAN->value);
     }
 
     public function isKabag(): bool
@@ -72,6 +72,11 @@ class User extends Authenticatable
     public function isPptk(): bool
     {
         return $this->hasRole(RoleEnum::PPTK->value);
+    }
+
+    public function kendaraan()
+    {
+        return $this->hasOne(\App\Models\Kendaraan::class, 'pengaju_id');
     }
 
     public function pengajuanServis()

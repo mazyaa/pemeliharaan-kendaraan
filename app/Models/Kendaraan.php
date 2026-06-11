@@ -24,6 +24,7 @@ class Kendaraan extends Model
         'tanggal_perolehan',
         'status',
         'keterangan',
+        'pengaju_id',
     ];
 
     protected function casts(): array
@@ -33,6 +34,11 @@ class Kendaraan extends Model
             'tanggal_perolehan' => 'date',
             'status' => KendaraanStatusEnum::class,
         ];
+    }
+
+    public function pengaju()
+    {
+        return $this->belongsTo(\App\Models\User::class, 'pengaju_id');
     }
 
     public function pengajuanServis()

@@ -13,7 +13,7 @@ class RoleController extends Controller
 
     public function index()
     {
-        $roles = $this->service->all();
+        $roles = $this->service->paginated(request()->only(['search']), (int) request('perPage', 10));
         return view('admin.roles.index', compact('roles'));
     }
 

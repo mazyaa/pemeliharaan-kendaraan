@@ -12,7 +12,7 @@ class RoleSeeder extends Seeder
     {
         $roles = [
             RoleEnum::ADMIN->value => 'Administrator Sistem',
-            RoleEnum::PENGELOLA_KENDARAAN->value => 'Pengelola Kendaraan Dinas',
+            RoleEnum::PENGAJU_KENDARAAN->value => 'Pengaju Kendaraan Dinas',
             RoleEnum::KEPALA_BAGIAN->value => 'Kepala Bagian Umum',
             RoleEnum::KEPALA_BIRO->value => 'Kepala Biro Umum',
             RoleEnum::PPTK->value => 'Penyusun Pengguna Teknis Kegiatan',

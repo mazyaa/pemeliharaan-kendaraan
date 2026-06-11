@@ -18,7 +18,11 @@ class PengajuanServisRepository
             $search = $filters['search'];
             $query->where(function (Builder $q) use ($search) {
                 $q->where('nomor_pengajuan', 'like', "%{$search}%")
-                  ->orWhere('keluhan', 'like', "%{$search}%");
+                    ->orWhereHas('kendaraan', function ($q) use ($search) {
+                        $q->where('plat_nomor', 'like', "%{$search}%")
+                            ->orWhere('merk', 'like', "%{$search}%")
+                            ->orWhere('tipe', 'like', "%{$search}%");
+                    });
             });
         }
 
@@ -47,7 +51,7 @@ class PengajuanServisRepository
 
     public function find(int $id): ?PengajuanServis
     {
-        return $this->model->with(['kendaraan', 'pengaju', 'lampiran', 'approvalHistories.approver', 'spk', 'workflowLogs.changedByUser'])->find($id);
+        return $this->model->with(['kendaraan', 'pengaju', 'lampiran', 'approvalHistories.approver', 'spk', 'workflowLogs.changedByUser', 'details.jenisPemeliharaan'])->find($id);
     }
 
     public function create(array $data): PengajuanServis
@@ -87,12 +91,21 @@ class PengajuanServisRepository
             ->count();
     }
 
-    public function getPendingApproval(string $status): LengthAwarePaginator
+    public function getPendingApproval(string $status, int $perPage = 10): LengthAwarePaginator
     {
         return $this->model->with(['kendaraan', 'pengaju'])
             ->where('status', $status)
             ->latest()
-            ->paginate(10);
+            ->paginate($perPage);
+    }
+
+    public function getPendingForSpk(): \Illuminate\Database\Eloquent\Collection
+    {
+        return $this->model->with(['kendaraan', 'pengaju'])
+            ->where('status', \App\Enums\PengajuanStatusEnum::DISPOSED_BIRO)
+            ->whereDoesntHave('spk')
+            ->latest()
+            ->get();
     }
 
     public function getByStatuses(array $statuses, array $filters = [], int $perPage = 10): LengthAwarePaginator
@@ -105,7 +118,11 @@ class PengajuanServisRepository
             $search = $filters['search'];
             $query->where(function (Builder $q) use ($search) {
                 $q->where('nomor_pengajuan', 'like', "%{$search}%")
-                  ->orWhere('keluhan', 'like', "%{$search}%");
+                    ->orWhereHas('kendaraan', function ($q) use ($search) {
+                        $q->where('plat_nomor', 'like', "%{$search}%")
+                            ->orWhere('merk', 'like', "%{$search}%")
+                            ->orWhere('tipe', 'like', "%{$search}%");
+                    });
             });
         }
 

@@ -13,14 +13,14 @@ class ApprovalController extends Controller
 
     public function index()
     {
-        $pengajuan = $this->service->getPendingForKabag();
+        $pengajuan = $this->service->getPendingForKabag((int) request('perPage', 10));
         return view('kabag.approval.index', compact('pengajuan'));
     }
 
     public function history()
     {
         $filters = request()->only(['search', 'status']);
-        $pengajuan = $this->service->getHistoryForKabag($filters);
+        $pengajuan = $this->service->getHistoryForKabag($filters, (int) request('perPage', 10));
         return view('kabag.approval.history', compact('pengajuan'));
     }
 

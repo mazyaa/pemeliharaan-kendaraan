@@ -4,10 +4,16 @@ namespace App\Services;
 
 use App\Repositories\RoleRepository;
 use App\Models\Role;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class RoleService
 {
     public function __construct(protected RoleRepository $repo) {}
+
+    public function paginated(array $filters = [], int $perPage = 10): LengthAwarePaginator
+    {
+        return $this->repo->paginated($filters, $perPage);
+    }
 
     public function all()
     {

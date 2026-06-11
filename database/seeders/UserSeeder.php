@@ -13,7 +13,7 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         $adminRole = Role::where('name', RoleEnum::ADMIN->value)->first();
-        $pengelolaRole = Role::where('name', RoleEnum::PENGELOLA_KENDARAAN->value)->first();
+        $pengajuRole = Role::where('name', RoleEnum::PENGAJU_KENDARAAN->value)->first();
         $kabagRole = Role::where('name', RoleEnum::KEPALA_BAGIAN->value)->first();
         $kabiroRole = Role::where('name', RoleEnum::KEPALA_BIRO->value)->first();
         $pptkRole = Role::where('name', RoleEnum::PPTK->value)->first();
@@ -30,12 +30,12 @@ class UserSeeder extends Seeder
                 'is_active' => true,
             ],
             [
-                'role_id' => $pengelolaRole?->id,
+                'role_id' => $pengajuRole?->id,
                 'nip' => '199001012015011001',
                 'name' => 'Budi Santoso',
-                'email' => 'pengelola@banten.go.id',
+                'email' => 'pengaju@banten.go.id',
                 'password' => Hash::make('password'),
-                'position' => 'Pengelola Kendaraan',
+                'position' => 'Pengaju Kendaraan',
                 'phone' => '081234567891',
                 'is_active' => true,
             ],

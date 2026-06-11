@@ -18,7 +18,7 @@ class UserController extends Controller
     public function index()
     {
         $filters = request()->only(['search', 'role_id', 'is_active']);
-        $users = $this->service->paginated($filters, 10);
+        $users = $this->service->paginated($filters, (int) request('perPage', 10));
         $roles = $this->roleService->all();
         return view('admin.users.index', compact('users', 'roles'));
     }

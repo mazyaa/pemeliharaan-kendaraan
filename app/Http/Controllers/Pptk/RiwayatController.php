@@ -18,7 +18,7 @@ class RiwayatController extends Controller
     public function index()
     {
         $filters = request()->only(['search', 'status', 'date_from', 'date_to']);
-        $riwayat = $this->service->paginated($filters, 10);
+        $riwayat = $this->service->paginated($filters, (int) request('perPage', 10));
         $spkList = $this->spkService->paginated([], 100);
         return view('pptk.riwayat.index', compact('riwayat', 'spkList'));
     }

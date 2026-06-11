@@ -31,7 +31,11 @@ class SpkService
     {
         return DB::transaction(function () use ($pengajuanId, $userId, $keterangan) {
             $pengajuan = $this->pengajuanRepo->find($pengajuanId);
-            if (!$pengajuan || $pengajuan->status !== PengajuanStatusEnum::APPROVED_PPTK) {
+            if (!$pengajuan || $pengajuan->status !== PengajuanStatusEnum::DISPOSED_BIRO) {
+                return null;
+            }
+
+            if ($pengajuan->spk) {
                 return null;
             }
 

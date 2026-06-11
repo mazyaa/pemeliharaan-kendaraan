@@ -5,12 +5,12 @@
         <x-auth-session-status class="mb-4" :status="session('status')" />
 
         <div class="form-group">
-            <label for="email" class="form-label">Email</label>
-            <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus autocomplete="username"
-                class="glass-input px-4 py-2.5 @error('email') border-red-400/50 @enderror"
-                placeholder="Masukkan email Anda">
-            @error('email')
-                <p class="text-red-400 text-sm mt-1">{{ $message }}</p>
+            <label for="nip" class="form-label">NIP</label>
+            <input id="nip" type="text" name="nip" value="{{ old('nip') }}" required autofocus autocomplete="username"
+                class="glass-input px-4 py-2.5 @error('nip') border-red-400/50 @enderror"
+                placeholder="Masukkan NIP Anda">
+            @error('nip')
+                <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
             @enderror
         </div>
 
@@ -20,15 +20,15 @@
                 class="glass-input px-4 py-2.5 @error('password') border-red-400/50 @enderror"
                 placeholder="Masukkan password Anda">
             @error('password')
-                <p class="text-red-400 text-sm mt-1">{{ $message }}</p>
+                <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
             @enderror
         </div>
 
         <div class="flex items-center">
             <label for="remember_me" class="flex items-center gap-2 cursor-pointer">
                 <input id="remember_me" type="checkbox" name="remember"
-                    class="w-4 h-4 rounded-md bg-white/5 border-white/20 text-emerald-500 focus:ring-emerald-500/30 focus:ring-offset-0">
-                <span class="text-sm text-gray-400">Ingat Saya</span>
+                    class="w-4 h-4 rounded-md border-gray-300 text-emerald-500 focus:ring-emerald-500/30">
+                <span class="text-sm text-gray-600">Ingat Saya</span>
             </label>
         </div>
 
